@@ -1,0 +1,12 @@
+.img-circle {
+  max-height: 50px;
+  border-radius: 50%;
+}
+.btn-color{
+  background-color: coral;
+}
+
+.btn-color:hover{
+  background-color: rgb(149, 85, 61);
+
+}

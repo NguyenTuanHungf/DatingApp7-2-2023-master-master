@@ -1,0 +1,39 @@
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { map } from 'rxjs';
+ import { PaginatedResult } from '../_models/pagination';
+
+
+
+ export function getPaginatedResult<T>(url:string,params: any, http:HttpClient ) {
+    const paginatedResult : PaginatedResult<T> = new PaginatedResult<T>();
+
+
+    return http.get<T>(url, { observe: 'response', params }).pipe(
+      map(response => {
+        if(response.body!=null  && response.body !== undefined)
+        {
+          paginatedResult.result = response.body;
+        }
+
+        if (response.headers.get('Pagination') !== null) {
+          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination') || '{}');
+          console.log(paginatedResult.result);
+        }
+        return paginatedResult;
+      }),
+    );
+  }
+
+
+
+
+  export function getPaginationHeaders(pageNumber: number, pageSize: number)
+  {
+    let params = new HttpParams();
+    params = params.append('pageNumber', pageNumber.toString());
+    params = params.append('pageSize', pageSize.toString());
+
+    return params;
+  }
+
+
